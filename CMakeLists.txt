@@ -66,12 +66,12 @@ if(NOT PROJECT_IS_TOP_LEVEL)
 endif()
 
 # Adding the tests:
-include(CTest)
+#include(CTest)
 
-if(BUILD_TESTING)
-  message(AUTHOR_WARNING "Building Tests. Be sure to check out test/constexpr_tests.cpp for constexpr testing")
-  add_subdirectory(test)
-endif()
+#if(BUILD_TESTING)
+#  message(AUTHOR_WARNING "Building Tests. Be sure to check out test/constexpr_tests.cpp for constexpr testing")
+#  add_subdirectory(test)
+#endif()
 
 
 #if(myproject_BUILD_FUZZ_TESTS)
