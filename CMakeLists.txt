@@ -59,7 +59,7 @@ add_subdirectory(configured_files)
 
 # Adding the src:
 add_subdirectory(src)
-
+add_subdirectory(dev)
 # Don't even look at tests if we're not top level
 if(NOT PROJECT_IS_TOP_LEVEL)
   return()
