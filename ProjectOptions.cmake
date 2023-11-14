@@ -140,10 +140,10 @@ macro(myproject_local_options)
     ""
     "")
 
-  #if(myproject_ENABLE_USER_LINKER)
+  if(myproject_ENABLE_USER_LINKER)
   #  include(cmake/Linker.cmake)
-  myproject_user_linker_configure(myproject_options)
-  #endif()
+    myproject_user_linker_configure(myproject_options)
+  endif()
 
   include(cmake/Sanitizers.cmake)
   myproject_enable_sanitizers(
