@@ -1,0 +1,5 @@
+if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)
+  option(myproject_ENABLE_SANITIZER_UNDEFINED "Enable address undefined" OFF)
+else()
+  option(myproject_ENABLE_SANITIZER_UNDEFINED "Enable address undefined" ${SUPPORTS_ASAN})
+endif()

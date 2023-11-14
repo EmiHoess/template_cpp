@@ -1,0 +1,5 @@
+if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)
+  option(myproject_ENABLE_SANITIZER_LEAK "Enable address sanitizer" OFF)
+else()
+  option(myproject_ENABLE_SANITIZER_LEAK "Enable address sanitizer" ${SUPPORTS_ASAN})
+endif()
