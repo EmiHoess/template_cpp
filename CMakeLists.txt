@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-
+include(ProjectOptions.cmake)
 # This template attempts to be "fetch_content"-able
 # so that it works well with tools like CPM or other
 # manual dependency management
@@ -16,22 +16,21 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Set the project name and language
 project(
-  myproject
-  VERSION 0.0.1
-  DESCRIPTION ""
-  HOMEPAGE_URL "%%myurl%%"
-  LANGUAGES CXX C)
+  L_PROJECT_NAME
+  VERSION ${L_PROJECT_VERSION}
+  DESCRIPTION ${L_DESCRIPTION}
+  HOMEPAGE_URL ${L_HOMEPAGE_URL}
+  LANGUAGES ${L_LANGUAGES}
+)
 
 include(cmake/PreventInSourceBuilds.cmake)
-include(ProjectOptions.cmake)
 
 
 myproject_setup_options()
-
 myproject_global_options()
+
 include(Dependencies.cmake)
 myproject_setup_dependencies()
-
 myproject_local_options()
 
 # don't know if this should be set globally from here or not...
@@ -47,6 +46,8 @@ string(
             GIT_SHORT_SHA)
 
 target_compile_features(myproject_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
+
+message("IPOOOOO is supported: ${myproject_ENABLE_IPO}")
 
 add_library(myproject::myproject_options ALIAS myproject_options)
 add_library(myproject::myproject_warnings ALIAS myproject_warnings)

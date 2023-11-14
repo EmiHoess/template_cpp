@@ -4,6 +4,13 @@ include(CMakeDependentOption)
 include(CheckCXXCompilerFlag)
 
 
+set (L_PROJECT_NAME myproject)
+set (L_PROJECT_VERSION "0.0.1")
+set (L_DESCRIPTION "")
+set (L_HOMEPAGE_URL "url")
+set (L_LANGUAGES CXX C)
+
+
 macro(myproject_supports_sanitizers)
   if((CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES ".*GNU.*") AND NOT WIN32)
     set(SUPPORTS_UBSAN ON)
@@ -30,8 +37,12 @@ macro(myproject_setup_options)
 
   myproject_supports_sanitizers()
 
+
+
+  include(cmake/options/interprocedural_optimization.cmake)
+  
   if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)
-    option(myproject_ENABLE_IPO "Enable IPO/LTO" OFF)
+    #option(myproject_ENABLE_IPO "Enable IPO/LTO" OFF)
     option(myproject_WARNINGS_AS_ERRORS "Treat Warnings As Errors" OFF)
     option(myproject_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
     option(myproject_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
@@ -45,7 +56,7 @@ macro(myproject_setup_options)
     option(myproject_ENABLE_PCH "Enable precompiled headers" OFF)
     option(myproject_ENABLE_CACHE "Enable ccache" OFF)
   else()
-    option(myproject_ENABLE_IPO "Enable IPO/LTO" ON)
+    #option(myproject_ENABLE_IPO "Enable IPO/LTO" ON)
     option(myproject_WARNINGS_AS_ERRORS "Treat Warnings As Errors" ON)
     option(myproject_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
     option(myproject_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" ${SUPPORTS_ASAN})
@@ -89,13 +100,13 @@ macro(myproject_setup_options)
 endmacro()
 
 macro(myproject_global_options)
-  if(myproject_ENABLE_IPO)
-    include(cmake/InterproceduralOptimization.cmake)
-    myproject_enable_ipo()
-  endif()
+  #if(myproject_ENABLE_IPO)
+  myproject_enable_ipo()
+ 
+  #myproject_enable_ipo()
+  #endif()
 
   myproject_supports_sanitizers()
-
   if(myproject_ENABLE_HARDENING AND myproject_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
     if(NOT SUPPORTS_UBSAN 
