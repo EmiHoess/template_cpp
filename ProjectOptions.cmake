@@ -1,8 +1,10 @@
-include(cmake/SystemLink.cmake)
+include(cmake/utils/system_library.cmake)
 #include(cmake/LibFuzzer.cmake)
 include(CMakeDependentOption)
 include(CheckCXXCompilerFlag)
 
+include(cmake/utils/compiler_warnings.cmake)
+include(cmake/settings/sanitizers.cmake)
 
 set (L_PROJECT_NAME myproject)
 set (L_PROJECT_VERSION "0.0.1")
@@ -13,6 +15,8 @@ set (L_LANGUAGES CXX C)
 
 
 macro(myproject_setup_options)
+  include(cmake/options/hardening.cmake)
+  include(cmake/options/hardening.cmake)
   include(cmake/options/hardening.cmake)
   #option(myproject_ENABLE_HARDENING "Enable hardening" ON)
   #option(myproject_ENABLE_COVERAGE "Enable coverage reporting" OFF)
@@ -26,7 +30,8 @@ macro(myproject_setup_options)
 
   #myproject_supports_sanitizers()
   include(cmake/options/sanitizers_support.cmake)
-
+  include(cmake/options/hardening.cmake)
+  include(cmake/options/hardening.cmake)
   include(cmake/options/interprocedural_optimization.cmake)
   include(cmake/options/warnings_as_errors.cmake)
   include(cmake/options/user_linker.cmake)
@@ -40,7 +45,8 @@ macro(myproject_setup_options)
   include(cmake/options/unity_build.cmake)
   include(cmake/options/clang_tidy.cmake)
   include(cmake/options/cppcheck.cmake)
-
+  include(cmake/options/cppcheck.cmake)
+  include(cmake/options/cppcheck.cmake)
   include(cmake/options/precompiled_headers.cmake)
   include(cmake/options/ccache.cmake)
 
@@ -111,30 +117,23 @@ macro(myproject_global_options)
 
   #myproject_supports_sanitizers()
   include(cmake/options/sanitizers_support.cmake)
-  if(myproject_ENABLE_HARDENING AND myproject_ENABLE_GLOBAL_HARDENING)
-    if(NOT SUPPORTS_UBSAN 
-       OR myproject_ENABLE_SANITIZER_UNDEFINED
-       OR myproject_ENABLE_SANITIZER_ADDRESS
-       OR myproject_ENABLE_SANITIZER_THREAD
-       OR myproject_ENABLE_SANITIZER_LEAK)
-      set(ENABLE_UBSAN_MINIMAL_RUNTIME FALSE)
-    else()
-      set(ENABLE_UBSAN_MINIMAL_RUNTIME TRUE)
-    endif()
+  include(cmake/options/dependent/sanitizer_ub_minimal.cmake)
+  if(myproject_ENABLE_HARDENING AND NOT myproject_ENABLE_GLOBAL_HARDENING)
     message("${myproject_ENABLE_HARDENING} ${ENABLE_UBSAN_MINIMAL_RUNTIME} ${myproject_ENABLE_SANITIZER_UNDEFINED}")
-    myproject_enable_hardening(myproject_options ON ${ENABLE_UBSAN_MINIMAL_RUNTIME})
+    myproject_enable_hardening(myproject_options OFF ${ENABLE_UBSAN_MINIMAL_RUNTIME})
   endif()
 endmacro()
 
 macro(myproject_local_options)
   if(PROJECT_IS_TOP_LEVEL)
-    include(cmake/StandardProjectSettings.cmake)
+    include(cmake/settings/standard_project.cmake)
   endif()
 
   add_library(myproject_warnings INTERFACE)
   add_library(myproject_options INTERFACE)
 
-  include(cmake/CompilerWarnings.cmake)
+  #include(cmake/CompilerWarnings.cmake)
+
   myproject_set_project_warnings(
     myproject_warnings
     ${myproject_WARNINGS_AS_ERRORS}
@@ -148,7 +147,6 @@ macro(myproject_local_options)
     myproject_user_linker_configure(myproject_options)
   endif()
 
-  include(cmake/Sanitizers.cmake)
   myproject_enable_sanitizers(
     myproject_options
     ${myproject_ENABLE_SANITIZER_ADDRESS}
@@ -188,18 +186,10 @@ macro(myproject_local_options)
   #  myproject_enable_coverage(myproject_options)
   #endif()
 
-  myproject_set_fatal_warnings_linker_options()
+  set_warning_as_errors()
 
+  include(cmake/options/dependent/sanitizer_ub_minimal.cmake)
   if(myproject_ENABLE_HARDENING AND NOT myproject_ENABLE_GLOBAL_HARDENING)
-    if(NOT SUPPORTS_UBSAN 
-       OR myproject_ENABLE_SANITIZER_UNDEFINED
-       OR myproject_ENABLE_SANITIZER_ADDRESS
-       OR myproject_ENABLE_SANITIZER_THREAD
-       OR myproject_ENABLE_SANITIZER_LEAK)
-      set(ENABLE_UBSAN_MINIMAL_RUNTIME FALSE)
-    else()
-      set(ENABLE_UBSAN_MINIMAL_RUNTIME TRUE)
-    endif()
     myproject_enable_hardening(myproject_options OFF ${ENABLE_UBSAN_MINIMAL_RUNTIME})
   endif()
 

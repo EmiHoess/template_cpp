@@ -5,7 +5,7 @@ else()
 endif()
 
 
-macro(myproject_set_fatal_warnings_linker_options)
+macro(set_warning_as_errors)
     if(myproject_WARNINGS_AS_ERRORS)
     check_cxx_compiler_flag("-Wl,--fatal-warnings" LINKER_FATAL_WARNINGS)
     if(LINKER_FATAL_WARNINGS)

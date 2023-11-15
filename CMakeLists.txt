@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.21)
+
+include(cmake/utils/common.cmake)
+include(cmake/settings/project.cmake)
+
 include(ProjectOptions.cmake)
+
+
 # This template attempts to be "fetch_content"-able
 # so that it works well with tools like CPM or other
 # manual dependency management
@@ -23,7 +29,7 @@ project(
   LANGUAGES ${L_LANGUAGES}
 )
 
-include(cmake/PreventInSourceBuilds.cmake)
+include(cmake/utils/prevent_insource_builds.cmake)
 
 
 myproject_setup_options()
@@ -98,7 +104,6 @@ if(CMAKE_SKIP_INSTALL_RULES)
   return()
 endif()
 
-include(cmake/PackageProject.cmake)
 
 # Add other targets that you want installed here, by default we just package the one executable
 # we know we want to ship
