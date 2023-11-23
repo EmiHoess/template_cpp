@@ -70,6 +70,13 @@ jobs:
           NEW_SAFE_PROJECT=$(echo ${{ env.NEW_PROJECT }} | sed "s/-/_/g" | sed "s/\./_/g" )
           echo "NEW_SAFE_PROJECT=$NEW_SAFE_PROJECT" >> $GITHUB_ENV 
 
+      - name: Project Name
+        uses: cardinalby/export-env-action@v2
+        with:
+          envFile: '.github/constants.env'
+      - name: Test env
+        run:
+          echo "My name is " env.PROJECT_NAME
       # Rename all cpp_starter_project occurences to current repository and remove this workflow
       - name: Insert new org and project
         run: |
@@ -122,10 +129,7 @@ jobs:
           gcovr: false
           opencppcoverage: false
 
-      - name: Project Name
-        uses: cardinalby/export-env-action@v2
-        with:
-          envFile: '.github/constants.env'
+      
 
 
 
