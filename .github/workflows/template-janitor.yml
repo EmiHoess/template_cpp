@@ -77,6 +77,7 @@ jobs:
       - name: Test env
         run:
           echo "My name is " ${{ env.PROJECT_NAME }}
+          echo "My name is " ${{ env.PROJECT_FLDRS }}
       # Rename all cpp_starter_project occurences to current repository and remove this workflow
       - name: Insert new org and project
         run: |
