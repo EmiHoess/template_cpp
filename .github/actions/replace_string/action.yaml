@@ -1,0 +1,34 @@
+name: 'replace_string'
+description: 'sets up the shared cache'
+inputs:
+  folders:
+    required: true
+    type: string
+  new_safe_project:
+    required: true
+    type: string
+  path:
+    required: true
+    type: string
+  org:
+    required: true
+    type: string
+  new_project:
+    required: true
+    type: string
+
+
+run: |
+        # rename the CMake project to match the github project
+        find ${{ env.folders }} -type f -exec sed -i "s/myproject/${{ env.new_safe_project }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
+
+        # Update URL placeholders for project
+        sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
+
+        # fill in placeholders of readme and move it into place
+        sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.path }}/README.md
+        sed -i "s/%%myproject%%/${{ env.new_project }}/g" ${{ env.path }}/README.md
+        sed -i "s|%%description%%|${{ fromJson(steps.get_repo_meta.outputs.data).description }}|g" ${{ env.path }}/README.md
+        mv include/myproject include/${{ env.new_safe_project }}
+        cp ${{ env.path }}/README.md README.md
+

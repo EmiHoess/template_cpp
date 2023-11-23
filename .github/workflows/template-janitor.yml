@@ -86,19 +86,27 @@ jobs:
           echo "My name is " ${{ env.PROJECT_FLDRS }}
       # Rename all cpp_starter_project occurences to current repository and remove this workflow
       - name: Insert new org and project
-        run: |
+        uses: ./.github/actions/replace_string
+        with:
+          folder: ${{ env.PROJECT_FLDRS }}
+          new_safe_project: ${{ env.NEW_SAFE_PROJECT }}
+          path: ${{ env.TEMPLATES_PATH }}
+          org: ${{ env.NEW_ORG }}
+          new_project: ${{ env.NEW_PROJECT }}
+
+        #run: |
           # rename the CMake project to match the github project
-          find ${{ env.PROJECT_FLDRS }} -type f -exec sed -i "s/myproject/${{ env.NEW_SAFE_PROJECT }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
+        #  find ${{ env.PROJECT_FLDRS }} -type f -exec sed -i "s/myproject/${{ env.NEW_SAFE_PROJECT }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
 
           # Update URL placeholders for project
-          sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
+        #  sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
 
           # fill in placeholders of readme and move it into place
-          sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
-          sed -i "s/%%myproject%%/${{ env.NEW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
-          sed -i "s|%%description%%|${{ fromJson(steps.get_repo_meta.outputs.data).description }}|g" ${{ env.TEMPLATES_PATH }}/README.md
-          mv include/myproject include/${{ env.NEW_SAFE_PROJECT }}
-          cp ${{ env.TEMPLATES_PATH }}/README.md README.md
+        #  sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+        #  sed -i "s/%%myproject%%/${{ env.NEW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+        #  sed -i "s|%%description%%|${{ fromJson(steps.get_repo_meta.outputs.data).description }}|g" ${{ env.TEMPLATES_PATH }}/README.md
+        #  mv include/myproject include/${{ env.NEW_SAFE_PROJECT }}
+        #  cp ${{ env.TEMPLATES_PATH }}/README.md README.md
 
       - name: Print diff after replacement
         run: |
