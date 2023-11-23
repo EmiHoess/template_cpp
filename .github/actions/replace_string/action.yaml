@@ -17,18 +17,20 @@ inputs:
     required: true
     type: string
 
+runs:
+  using: "composite"
+  steps:
+  run: |
+          # rename the CMake project to match the github project
+          find -${{ inputs.folders }} -type f -exec sed -i "s/myproject/-${{ inputs.new_safe_project }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
 
-run: |
-        # rename the CMake project to match the github project
-        find -${{ inputs.folders }} -type f -exec sed -i "s/myproject/-${{ inputs.new_safe_project }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
+          # Update URL placeholders for project
+          sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
 
-        # Update URL placeholders for project
-        sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
-
-        # fill in placeholders of readme and move it into place
-        sed -i "s/%%myorg%%/${{ inputs.NEW_ORG }}/g" ${{ inputs.path }}/README.md
-        sed -i "s/%%myproject%%/${{ inputs.new_project }}/g" ${{ inputs.path }}/README.md
-        sed -i "s|%%description%%|${{ fromJson(steps.get_repo_meta.outputs.data).description }}|g" ${{ inputs.path }}/README.md
-        mv include/myproject include/${{ inputs.new_safe_project }}
-        cp ${{ inputs.path }}/README.md README.md
+          # fill in placeholders of readme and move it into place
+          sed -i "s/%%myorg%%/${{ inputs.NEW_ORG }}/g" ${{ inputs.path }}/README.md
+          sed -i "s/%%myproject%%/${{ inputs.new_project }}/g" ${{ inputs.path }}/README.md
+          sed -i "s|%%description%%|${{ fromJson(steps.get_repo_meta.outputs.data).description }}|g" ${{ inputs.path }}/README.md
+          mv include/myproject include/${{ inputs.new_safe_project }}
+          cp ${{ inputs.path }}/README.md README.md
 
