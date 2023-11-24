@@ -33,4 +33,5 @@ runs:
             sed -i "s|%%description%%|${{ fromJson(steps.get_repo_meta.outputs.data).description }}|g" ${{ inputs.path }}/README.md
             mv include/myproject include/${{ inputs.new_safe_project }}
             cp ${{ inputs.path }}/README.md README.md
+      shell: bash
 
