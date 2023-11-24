@@ -25,7 +25,7 @@ runs:
   steps:
     - run: find ${{ inputs.folders }} -type f -exec sed -i "s/myproject/${{ inputs.new_safe_project }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
       shell: bash
-    - run: sed -i "s|%%myurl%%|${{ url }}|gi" CMakeLists.txt
+    - run: sed -i "s|%%myurl%%|${{ inputs.url }}|gi" CMakeLists.txt
       shell: bash
     - run: sed -i "s/%%myorg%%/${{ inputs.org }}/g" ${{ inputs.path }}/README.md
       shell: bash
