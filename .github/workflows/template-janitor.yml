@@ -93,6 +93,7 @@ jobs:
           path: ${{ env.TEMPLATES_PATH }}
           org: ${{ env.NEW_ORG }}
           new_project: ${{ env.NEW_PROJECT }}
+          url: fromJson(steps.get_repo_meta.outputs.data).html_url
 
         #run: |
           # rename the CMake project to match the github project

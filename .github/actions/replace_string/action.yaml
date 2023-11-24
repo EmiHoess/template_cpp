@@ -16,15 +16,18 @@ inputs:
   new_project:
     required: true
     type: string
+  url:
+    required: true
+    type: string
 
 runs:
   using: "composite"
   steps:
     - run: find ${{ inputs.folders }} -type f -exec sed -i "s/myproject/${{ inputs.new_safe_project }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
       shell: bash
-    - run: sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
+    - run: sed -i "s|%%myurl%%|${{ url }}|gi" CMakeLists.txt
       shell: bash
-    - run: sed -i "s/%%myorg%%/${{ inputs.NEW_ORG }}/g" ${{ inputs.path }}/README.md
+    - run: sed -i "s/%%myorg%%/${{ inputs.org }}/g" ${{ inputs.path }}/README.md
       shell: bash
         # rename the CMake project to match the github project
         
