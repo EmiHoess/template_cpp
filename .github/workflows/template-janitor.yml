@@ -88,7 +88,7 @@ jobs:
       - name: Insert new org and project
         uses: ./.github/actions/replace_string
         with:
-          folder: ${{ env.PROJECT_FLDRS }}
+          folders: ${{ env.PROJECT_FLDRS }}
           new_safe_project: ${{ env.NEW_SAFE_PROJECT }}
           path: ${{ env.TEMPLATES_PATH }}
           org: ${{ env.NEW_ORG }}
