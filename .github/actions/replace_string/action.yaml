@@ -28,16 +28,19 @@ runs:
   steps:
     - run: find ${{ inputs.folders }} -type f -exec sed -i "s/myproject/${{ inputs.new_safe_project }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
       shell: bash
-    - run: sed -i "s|%%myurl%%|${{ inputs.url }}|gi" CMakeLists.txt
+    #- run: sed -i "s/%%myorg%%/${{ inputs.org }}/g" ${{ inputs.path }}/README.md
+    #  shell: bash
+    #- run: sed -i "s/%%myproject%%/${{ inputs.new_project }}/g" ${{ inputs.path }}/README.md
+    #  shell: bash
+
+    # rename subdirectory
+    #- run: mv include/myproject include/${{ inputs.new_safe_project }}
+    - run: 
+        for d in ./*/; do
+          mv -v "$d" "${d/Edition/Volume}"
+        done
       shell: bash
-    - run: sed -i "s/%%myorg%%/${{ inputs.org }}/g" ${{ inputs.path }}/README.md
-      shell: bash
-    - run: sed -i "s/%%myproject%%/${{ inputs.new_project }}/g" ${{ inputs.path }}/README.md
-      shell: bash
-    - run: sed -i "s|%%description%%|${{ inputs.description }}|g" ${{ inputs.path }}/README.md
-      shell: bash
-    - run: mv include/myproject include/${{ inputs.new_safe_project }}
-      shell: bash
+    
     - run: cp ${{ inputs.path }}/README.md README.md
       shell: bash
 
