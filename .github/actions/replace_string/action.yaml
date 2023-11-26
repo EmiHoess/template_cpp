@@ -35,7 +35,7 @@ runs:
 
     # rename subdirectory
     #- run: mv include/myproject include/${{ inputs.new_safe_project }}
-    - run: find . -depth -type d -name '*faa*' -execdir bash -c 'mv -v "$1" "${1//faa/foo}"' foo {} \;
+    - run: find . -depth -type d -name '*myproject*' -execdir bash -c 'mv -v "$1" "${1//myproject/${{ inputs.new_safe_project }}}"' ${{ inputs.new_safe_project }} {} \;
       shell: bash
     
     - run: cp ${{ inputs.path }}/README.md README.md
