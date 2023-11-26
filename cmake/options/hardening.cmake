@@ -1,16 +1,16 @@
 include(CheckCXXCompilerFlag)
-option(myproject_ENABLE_HARDENING "Enable hardening" ON)
+option(__template__project_name_ENABLE_HARDENING "Enable hardening" ON)
 #hardening depends on...
 cmake_dependent_option(
-    myproject_ENABLE_GLOBAL_HARDENING
+    __template__project_name_ENABLE_GLOBAL_HARDENING
     "Attempt to push hardening options to built dependencies"
     ON
-    myproject_ENABLE_HARDENING
+    __template__project_name_ENABLE_HARDENING
     OFF)
 
 
 macro(
-  myproject_enable_hardening
+  __template__project_name_enable_hardening
   target
   global
   ubsan_minimal_runtime)

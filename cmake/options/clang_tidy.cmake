@@ -1,12 +1,12 @@
-if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)
-  option(myproject_ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
+if(NOT PROJECT_IS_TOP_LEVEL OR __template__project_name_PACKAGING_MAINTAINER_MODE)
+  option(__template__project_name_ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
 else()
-  option(myproject_ENABLE_CLANG_TIDY "Enable clang-tidy" ON)
+  option(__template__project_name_ENABLE_CLANG_TIDY "Enable clang-tidy" ON)
 endif()
 
 
 
-macro(myproject_enable_clang_tidy target WARNINGS_AS_ERRORS)
+macro(__template__project_name_enable_clang_tidy target WARNINGS_AS_ERRORS)
 
   find_program(CLANGTIDY clang-tidy)
   if(CLANGTIDY)
@@ -59,7 +59,7 @@ macro(myproject_enable_clang_tidy target WARNINGS_AS_ERRORS)
   endif()
 endmacro()
 
-macro(myproject_enable_include_what_you_use)
+macro(__template__project_name_enable_include_what_you_use)
   find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
   if(INCLUDE_WHAT_YOU_USE)
     set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${INCLUDE_WHAT_YOU_USE})

@@ -26,16 +26,16 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: find ${{ inputs.folders }} -type f -exec sed -i "s/myproject/${{ inputs.new_safe_project }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
+    - run: find ${{ inputs.folders }} -type f -exec sed -i "s/__template__project_name/${{ inputs.new_safe_project }}/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
       shell: bash
     #- run: sed -i "s/%%myorg%%/${{ inputs.org }}/g" ${{ inputs.path }}/README.md
     #  shell: bash
-    #- run: sed -i "s/%%myproject%%/${{ inputs.new_project }}/g" ${{ inputs.path }}/README.md
+    #- run: sed -i "s/%%__template__project_name%%/${{ inputs.new_project }}/g" ${{ inputs.path }}/README.md
     #  shell: bash
 
     # rename subdirectory
-    #- run: mv include/myproject include/${{ inputs.new_safe_project }}
-    - run: find . -depth -type d -name '*myproject*' -execdir bash -c 'mv -v "$1" "${1//myproject/${{ inputs.new_safe_project }}}"' ${{ inputs.new_safe_project }} {} \;
+    #- run: mv include/__template__project_name include/${{ inputs.new_safe_project }}
+    - run: find . -depth -type d -name '*__template__project_name*' -execdir bash -c 'mv -v "$1" "${1//__template__project_name/${{ inputs.new_safe_project }}}"' ${{ inputs.new_safe_project }} {} \;
       shell: bash
     
     - run: cp ${{ inputs.path }}/README.md README.md

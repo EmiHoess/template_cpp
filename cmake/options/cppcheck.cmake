@@ -1,10 +1,10 @@
-if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)
-  option(myproject_ENABLE_CPPCHECK "Enable cppcheck" OFF)
+if(NOT PROJECT_IS_TOP_LEVEL OR __template__project_name_PACKAGING_MAINTAINER_MODE)
+  option(__template__project_name_ENABLE_CPPCHECK "Enable cppcheck" OFF)
 else()
-  option(myproject_ENABLE_CPPCHECK "Enable cppcheck" ON)
+  option(__template__project_name_ENABLE_CPPCHECK "Enable cppcheck" ON)
 endif()
 
-macro(myproject_enable_cppcheck WARNINGS_AS_ERRORS CPPCHECK_OPTIONS)
+macro(__template__project_name_enable_cppcheck WARNINGS_AS_ERRORS CPPCHECK_OPTIONS)
   find_program(CPPCHECK cppcheck)
   if(CPPCHECK)
 
