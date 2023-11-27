@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.21)
 
-include(cmake/utils/common.cmake)
-include(cmake/settings/project.cmake)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+include(utils/common)
+include(settings/project)
 
 include(ProjectOptions.cmake)
 
@@ -29,7 +31,7 @@ project(
   LANGUAGES ${L_LANGUAGES}
 )
 
-include(cmake/utils/prevent_insource_builds.cmake)
+include(utils/prevent_insource_builds)
 
 
 __template__project_name_setup_options()
@@ -62,7 +64,7 @@ add_library(__template__project_name::__template__project_name_warnings ALIAS __
 #add_library(__template__project_name::__template__project_name_warnings INTERFACE IMPORTED)
 
 # configure files based on CMake configuration options
-add_subdirectory(configured_files)
+#add_subdirectory(configured_files)
 
 # Adding the src:
 add_subdirectory(src)

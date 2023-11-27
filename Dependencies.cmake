@@ -1,4 +1,4 @@
-include(cmake/utils/download_cpm.cmake)
+include(utils/download_cpm)
 
 # Done as a function so that updates to variables like
 # CMAKE_CXX_FLAGS don't propagate out to other

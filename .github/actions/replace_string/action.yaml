@@ -37,6 +37,8 @@ runs:
     #- run: mv include/__template__project_name include/${{ inputs.new_safe_project }}
     - run: find . -depth -type d -name '*__template__project_name*' -execdir bash -c 'mv -v "$1" "${1//__template__project_name/${{ inputs.new_safe_project }}}"' ${{ inputs.new_safe_project }} {} \;
       shell: bash
+    - run: find . -depth -name '*sample_library*' -execdir bash -c 'mv -v "$1" "${1//sample_library/example_library"' example_library {} \;
+      shell: bash
     
     - run: cp ${{ inputs.path }}/README.md README.md
       shell: bash
