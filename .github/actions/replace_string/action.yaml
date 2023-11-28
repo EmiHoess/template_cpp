@@ -37,10 +37,10 @@ runs:
     #- run: mv include/__template__project_name include/${{ inputs.new_safe_project }}
     - run: find . -depth -type d -name '*__template__project_name*' -execdir bash -c 'mv -v "$1" "${1//__template__project_name/${{ inputs.new_safe_project }}}"' ${{ inputs.new_safe_project }} {} \;
       shell: bash
-    - run: find ../../ -depth -name '*sample_library*' -execdir bash -c 'mv -v "$1" "${1//sample_library/example_library"' example_library {} \;
+    - run: find ../../ -depth -name '*__template__library_name*' -execdir bash -c 'mv -v "$1" "${1//__template__library_name/example_library"' example_library {} \;
       shell: bash
-    - run: find ${{ inputs.folders }} -type f -exec sed -i "s/sample_library/example_library/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
-      shell: bash
+    #- run: find ${{ inputs.folders }} -type f -exec sed -i "s/__template__library_name/example_library/gi" .github/constants.env CMakeLists.txt Dependencies.cmake ProjectOptions.cmake .github/workflows/ci.yml .github/workflows/codeql-analysis.yml {} +
+    #  shell: bash
     
     - run: cp ${{ inputs.path }}/README.md README.md
       shell: bash

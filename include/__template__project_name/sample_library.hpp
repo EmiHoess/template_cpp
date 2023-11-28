@@ -1,5 +1,5 @@
-#ifndef SAMPLE_LIBRARY_HPP
-#define SAMPLE_LIBRARY_HPP
+#ifndef __template__library_name_HPP
+#define __template__library_name_HPP
 
 
 [[nodiscard]] int factorial(int) noexcept;

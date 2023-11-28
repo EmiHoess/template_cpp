@@ -1,1 +1,1 @@
-add_subdirectory(sample_library)
+add_subdirectory(__template__library_name)
